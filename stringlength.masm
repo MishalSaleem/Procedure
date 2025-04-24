@@ -1,0 +1,75 @@
+org  100h
+.stack 100h
+.model small
+.data
+st db 25 dup ('$')
+msg1 db 'Enter String: $'
+msg2 db 'Length is: $'
+newline db 10, 13, '$'
+len dw ?
+.code
+main proc
+    Call Input
+    Call Length
+
+ret        
+main endp
+
+Input Proc
+   
+    mov dx, offset msg1
+    mov ah, 9
+    int 21h
+   
+    mov cx, 0
+    mov si, 0
+    L1:
+    mov ah, 1
+    int 21h
+    cmp al, 13
+    JE L2
+    mov st[si], al
+    inc cx
+    inc si
+    JMP L1
+   
+    L2:
+    ret
+    Input endp
+
+Length Proc
+
+    mov len, si
+   
+    mov dx, offset newline
+    mov ah, 9
+    int 21h  
+   
+    mov dx, offset msg2
+    mov ah, 9
+    int 21h
+   
+   
+    mov ax, len
+    mov bx, 10
+    mov cx, 0
+    L3:
+    mov dx, 0
+    div bx
+    push dx  
+    inc cx
+    cmp ax, 0
+    JNZ L3
+   
+    L4:
+    pop dx
+    add dx, 48
+    mov ah, 2
+    int 21h
+    Loop L4
+
+    Exit:
+    ret
+    Length endp
+
+end main
