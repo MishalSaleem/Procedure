@@ -1,0 +1,76 @@
+org  100h
+.stack 100h
+.model small
+.data
+msg1 db 'First Number: $'
+msg2 db 'Second Number: $'
+msg3 db 'Third Number: $'
+msg4 db 'Sum of three numbers: $'
+newline db 10, 13, '$'
+.code
+main proc
+    Call Input
+    Call Sum
+
+    Call Output
+ret        
+main endp
+Input Proc
+    mov dx, offset msg1
+    mov ah, 9
+    int 21h
+    mov ah, 1
+    int 21h
+    mov ah, 0 
+    sub al, 48
+    mov bl, al
+    mov dx, offset newline
+    mov ah, 9
+    int 21h 
+    mov dx, offset msg2
+    mov ah, 9
+    int 21h
+    mov ah, 1
+    int 21h
+    mov ah, 0
+    sub al, 48
+    mov bh, al
+    mov dx, offset newline
+    mov ah, 9
+    int 21h
+    mov dx, offset msg3
+
+    mov ah, 9
+    int 21h
+    mov ah, 1
+    int 21h
+    mov ah, 0
+    sub al, 48
+    mov cl, al
+    mov dx, offset newline
+    mov ah, 9
+    int 21h
+
+    ret
+    Input endp
+Sum Proc
+    add bl, bh
+    add bl, cl
+    ret
+    Sum endp
+Output Proc
+    mov dx, offset msg4
+
+    mov ah, 9
+    int 21h
+    mov dl, bl
+
+    add dl, 48
+
+    mov ah, 2
+
+    int 21h
+    ret
+    Output endp
+
+end main
