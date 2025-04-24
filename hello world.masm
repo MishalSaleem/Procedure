@@ -1,0 +1,37 @@
+org  100h
+.stack 100h
+.model small
+.data
+msg1 db 'Hello $'
+msg2 db 'World $'
+newline db 13, 10, '$'
+.code
+main proc
+    call printstring1 
+    call new
+    call printstring2
+    ret        
+main endp
+  
+printstring1 proc
+    mov dx, offset msg1
+    mov ah, 9
+    int 21h
+    ret
+printstring1 endp
+     
+printstring2 proc
+    mov dx, offset msg2
+    mov ah, 9
+    int 21h
+    ret
+printstring2 endp
+    
+new proc
+    mov dx, offset newline
+    mov ah, 9
+    int 21h
+    ret
+new endp
+        
+end main
